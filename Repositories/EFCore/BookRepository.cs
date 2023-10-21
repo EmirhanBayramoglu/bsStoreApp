@@ -21,11 +21,11 @@ namespace Repositories.EFCore
 
         public void DeleteOneBook(Book book) => Delete(book);
 
-        public IQueryable<Book> GetAll(bool trackChanges) =>
+        public IQueryable<Book> GetAllBooks(bool trackChanges) =>
             FindAll(trackChanges);
 
-        public IQueryable<Book> GetOneBookById(int id, bool trackChanges) =>
-            FindByCondition(x => x.Id.Equals(id), trackChanges);
+        Book IBookRepository.GetOneBookById(int id, bool trackChanges) =>
+            FindByCondition(x => x.Id.Equals(id), trackChanges).SingleOrDefault();
 
         public void UpdateOneBook(Book book) => Update(book);
     }
