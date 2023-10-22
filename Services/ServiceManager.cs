@@ -18,6 +18,6 @@ namespace Services
         }
 
 
-        public IBookService BookService => throw new NotImplementedException();
+        public IBookService BookService => _bookService.Value;
     }
 }

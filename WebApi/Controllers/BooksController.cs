@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Repositories.Contracts;
 using Repositories.EFCore;
+using Services.Contract;
 
 namespace WebApi.Controllers
 {
@@ -11,9 +12,9 @@ namespace WebApi.Controllers
     [ApiController]
     public class BooksController : ControllerBase
     {
-        private readonly IRepositoryManager _manager;
+        private readonly IServiceManager _manager;
 
-        public BooksController(IRepositoryManager manager)
+        public BooksController(IServiceManager manager)
         {
             _manager = manager;
         }
@@ -23,7 +24,7 @@ namespace WebApi.Controllers
         {
             try
             {
-                var books = _manager.Book.GetAllBooks(false);
+                var books = _manager.BookService.GetAllBooks(true);
                 return Ok(books);
             }
             catch (Exception)
@@ -41,7 +42,7 @@ namespace WebApi.Controllers
             try
             {
                 var book = _manager.
-                    Book.GetOneBookById(id, false);
+                    BookService.GetOneBookById(id, true);
                 //SingleOrDefault LINQ içerisinde arama metodudur (sadece 1 tane olanı getir yada defualt değeri döndür demek)
 
                 if (book == null)
@@ -66,8 +67,8 @@ namespace WebApi.Controllers
                 if (book == null)
                     return BadRequest(); //400
 
-                _manager.Book.Create(book);
-                _manager.Save();
+                _manager.BookService.CreateOneBook(book);
+                
                 return StatusCode(201, book);
 
             }
@@ -80,7 +81,7 @@ namespace WebApi.Controllers
         [HttpPut("{id:int}")]
         public IActionResult UpdateOneBook([FromRoute(Name = "id")] int id, [FromBody] Book book)
         {
-            var entity = _manager.Book.GetOneBookById(id, false);
+            var entity = _manager.BookService.GetOneBookById(id, true);
 
             //girilen id'ye denk gelen bir obje var mı kontrol ediyoruz
             if (entity == null)
@@ -92,13 +93,10 @@ namespace WebApi.Controllers
             entity.Title = book.Title; //book kısmı yeni değerler yani postman yada swagger üzerinden girdiğimiz değerler
             entity.Price = book.Price;
 
-            _manager.Save();
+            
 
             return Ok(book);
         }
-
- 
-
 
         [HttpDelete("{id:int}")]
         public IActionResult DeleteOneBook([FromRoute(Name = "id")] int id)
@@ -106,7 +104,7 @@ namespace WebApi.Controllers
 
             try
             {
-                var entity = _manager.Book.GetOneBookById(id, false);
+                var entity = _manager.BookService.GetOneBookById(id, true);
                 //SingleOrDefault LINQ içerisinde arama metodudur (sadece 1 tane olanı getir yada defualt değeri döndür demek)
 
                 if (entity == null)
@@ -116,8 +114,7 @@ namespace WebApi.Controllers
                         message = $"Book with id:{id} could not found."
                     }); //404
 
-                _manager.Book.Delete(entity);
-                _manager.Save();
+                _manager.BookService.DeleteOneBook(id, true);
 
                 return NoContent(); //204
             }
@@ -137,14 +134,13 @@ namespace WebApi.Controllers
         {
             try
             {
-                var entity = _manager.Book.GetOneBookById(id, false);
+                var entity = _manager.BookService.GetOneBookById(id, true);
 
                 if (entity == null)
                     return BadRequest(); //400
 
                 bookPatch.ApplyTo(entity);
-                _manager.Book.Update(entity);
-                _manager.Save();
+                _manager.BookService.UpdateOneBook(id,entity,true);
                 return NoContent(); //204
             }
             catch (Exception)
