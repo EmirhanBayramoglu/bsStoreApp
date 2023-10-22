@@ -1,4 +1,5 @@
-﻿using Entities.Models;
+﻿using Entities.Exceptions;
+using Entities.Models;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Services.Contract;
@@ -33,15 +34,9 @@ namespace Presentation.Controllers
         public IActionResult GetOneBook([FromRoute(Name = "id")] int id)
         {
 
-            throw new Exception("!!!");
             var book = _manager.
                 BookService.GetOneBookById(id, true);
-            //SingleOrDefault LINQ içerisinde arama metodudur (sadece 1 tane olanı getir yada defualt değeri döndür demek)
 
-            if (book == null)
-            {
-                return NotFound(); //404
-            }
             return Ok(book);
           
         }
@@ -66,10 +61,7 @@ namespace Presentation.Controllers
 
             //girilen id'ye denk gelen bir obje var mı kontrol ediyoruz
             if (entity == null)
-                return NotFound(); //404
-
-            if (id != entity.Id)
-                return BadRequest(); //400
+                throw new BookNotFoundException(id);
 
             entity.Title = book.Title; //book kısmı yeni değerler yani postman yada swagger üzerinden girdiğimiz değerler
             entity.Price = book.Price;
@@ -80,21 +72,8 @@ namespace Presentation.Controllers
         [HttpDelete("{id:int}")]
         public IActionResult DeleteOneBook([FromRoute(Name = "id")] int id)
         {
-
-            var entity = _manager.BookService.GetOneBookById(id, true);
-            //SingleOrDefault LINQ içerisinde arama metodudur (sadece 1 tane olanı getir yada defualt değeri döndür demek)
-
-            if (entity == null)
-                return NotFound(new
-                {
-                    StatusCode = 404,
-                    message = $"Book with id:{id} could not found."
-                }); //404
-
             _manager.BookService.DeleteOneBook(id, true);
-
             return NoContent(); //204
-
         }
 
         //patch olayı swagger üzerinde biraz garip pdf bakarak değer verme olayını anlayabilirsin
@@ -104,9 +83,6 @@ namespace Presentation.Controllers
         {
 
             var entity = _manager.BookService.GetOneBookById(id, true);
-
-            if (entity == null)
-                return BadRequest(); //400
 
             bookPatch.ApplyTo(entity);
             _manager.BookService.UpdateOneBook(id, entity, true);
