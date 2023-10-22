@@ -6,6 +6,7 @@ using Services.Contract;
 
 namespace WebApi.Controllers.Extensions
 {
+    //Service oluşturma klasörü
     public static class ServiceExtensions
     {
         //birşeyler yapılandırmaya, genişletmeye yarayan şeyler yazarız bu kısımda
@@ -19,6 +20,9 @@ namespace WebApi.Controllers.Extensions
 
         public static void ConfigureServiceManager(this IServiceCollection services) =>
             services.AddScoped<IServiceManager, ServiceManager>();
+
+        public static void ConfigureLoggerService(this IServiceCollection services) => 
+            services.AddSingleton<ILoggerService, LoggerManager>();
 
     }
 }
