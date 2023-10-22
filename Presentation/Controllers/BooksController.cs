@@ -24,16 +24,8 @@ namespace Presentation.Controllers
         [HttpGet]
         public IActionResult GetAllBooks()
         {
-            try
-            {
-                var books = _manager.BookService.GetAllBooks(true);
-                return Ok(books);
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
+            var books = _manager.BookService.GetAllBooks(true);
+            return Ok(books);
 
         }
 
@@ -41,43 +33,30 @@ namespace Presentation.Controllers
         public IActionResult GetOneBook([FromRoute(Name = "id")] int id)
         {
 
-            try
+            throw new Exception("!!!");
+            var book = _manager.
+                BookService.GetOneBookById(id, true);
+            //SingleOrDefault LINQ içerisinde arama metodudur (sadece 1 tane olanı getir yada defualt değeri döndür demek)
+
+            if (book == null)
             {
-                var book = _manager.
-                    BookService.GetOneBookById(id, true);
-                //SingleOrDefault LINQ içerisinde arama metodudur (sadece 1 tane olanı getir yada defualt değeri döndür demek)
-
-                if (book == null)
-                {
-                    return NotFound(); //404
-                }
-                return Ok(book);
+                return NotFound(); //404
             }
-            catch (Exception)
-            {
-
-                throw;
-            }
-
+            return Ok(book);
+          
         }
 
         [HttpPost]
         public IActionResult CreateOneBook([FromBody] Book book)
         {
-            try
-            {
-                if (book == null)
-                    return BadRequest(); //400
+            
+            if (book == null)
+                return BadRequest(); //400
 
-                _manager.BookService.CreateOneBook(book);
+            _manager.BookService.CreateOneBook(book);
 
-                return StatusCode(201, book);
+            return StatusCode(201, book);
 
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
         }
 
         [HttpPut("{id:int}")]
@@ -95,8 +74,6 @@ namespace Presentation.Controllers
             entity.Title = book.Title; //book kısmı yeni değerler yani postman yada swagger üzerinden girdiğimiz değerler
             entity.Price = book.Price;
 
-
-
             return Ok(book);
         }
 
@@ -104,28 +81,19 @@ namespace Presentation.Controllers
         public IActionResult DeleteOneBook([FromRoute(Name = "id")] int id)
         {
 
-            try
-            {
-                var entity = _manager.BookService.GetOneBookById(id, true);
-                //SingleOrDefault LINQ içerisinde arama metodudur (sadece 1 tane olanı getir yada defualt değeri döndür demek)
+            var entity = _manager.BookService.GetOneBookById(id, true);
+            //SingleOrDefault LINQ içerisinde arama metodudur (sadece 1 tane olanı getir yada defualt değeri döndür demek)
 
-                if (entity == null)
-                    return NotFound(new
-                    {
-                        StatusCode = 404,
-                        message = $"Book with id:{id} could not found."
-                    }); //404
+            if (entity == null)
+                return NotFound(new
+                {
+                    StatusCode = 404,
+                    message = $"Book with id:{id} could not found."
+                }); //404
 
-                _manager.BookService.DeleteOneBook(id, true);
+            _manager.BookService.DeleteOneBook(id, true);
 
-                return NoContent(); //204
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-
+            return NoContent(); //204
 
         }
 
@@ -134,27 +102,16 @@ namespace Presentation.Controllers
         public IActionResult PartiallyUpdateOneBook([FromRoute(Name = "id")] int id
             , [FromBody] JsonPatchDocument<Book> bookPatch)
         {
-            try
-            {
-                var entity = _manager.BookService.GetOneBookById(id, true);
 
-                if (entity == null)
-                    return BadRequest(); //400
+            var entity = _manager.BookService.GetOneBookById(id, true);
 
-                bookPatch.ApplyTo(entity);
-                _manager.BookService.UpdateOneBook(id, entity, true);
-                return NoContent(); //204
-            }
-            catch (Exception)
-            {
+            if (entity == null)
+                return BadRequest(); //400
 
-                throw;
-            }
-            //check entity
-
+            bookPatch.ApplyTo(entity);
+            _manager.BookService.UpdateOneBook(id, entity, true);
+            return NoContent(); //204
 
         }
-
-
     }
 }

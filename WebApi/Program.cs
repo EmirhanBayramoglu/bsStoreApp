@@ -3,6 +3,7 @@ using WebApi.Extensions;
 using Microsoft.EntityFrameworkCore;
 using NLog;
 using Presentation;
+using Services.Contract;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,13 +24,23 @@ builder.Services.ConfigureLoggerService();
 
 builder.Services.AddControllers().AddNewtonsoftJson();
 
+
 var app = builder.Build();
+
+var logger = app.Services.GetRequiredService<ILoggerService>();
+app.ConfigureExceptionHandler(logger);
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+}
+
+if (app.Environment.IsProduction())
+{
+    app.UseHsts();
+
 }
 
 app.UseHttpsRedirection();
