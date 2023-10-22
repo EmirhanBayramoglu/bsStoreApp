@@ -1,4 +1,5 @@
-﻿using Entities.Exceptions;
+﻿using Entities.DataTransferObjects;
+using Entities.Exceptions;
 using Entities.Models;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
@@ -55,18 +56,13 @@ namespace Presentation.Controllers
         }
 
         [HttpPut("{id:int}")]
-        public IActionResult UpdateOneBook([FromRoute(Name = "id")] int id, [FromBody] Book book)
+        public IActionResult UpdateOneBook([FromRoute(Name = "id")] int id, [FromBody] BookDtoForUpdate bookDto)
         {
-            var entity = _manager.BookService.GetOneBookById(id, true);
+            if (bookDto is null)
+                return BadRequest(); //400
 
-            //girilen id'ye denk gelen bir obje var mı kontrol ediyoruz
-            if (entity == null)
-                throw new BookNotFoundException(id);
-
-            entity.Title = book.Title; //book kısmı yeni değerler yani postman yada swagger üzerinden girdiğimiz değerler
-            entity.Price = book.Price;
-
-            return Ok(book);
+            _manager.BookService.UpdateOneBook(id, bookDto, true);
+            return NoContent();
         }
 
         [HttpDelete("{id:int}")]
@@ -85,7 +81,10 @@ namespace Presentation.Controllers
             var entity = _manager.BookService.GetOneBookById(id, true);
 
             bookPatch.ApplyTo(entity);
-            _manager.BookService.UpdateOneBook(id, entity, true);
+
+            _manager.BookService.UpdateOneBook(id, 
+                new BookDtoForUpdate(entity.Id, entity.Title, entity.Price), 
+                true);
             return NoContent(); //204
 
         }
