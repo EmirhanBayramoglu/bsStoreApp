@@ -1,12 +1,14 @@
 ﻿using Entities.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
-using Repositories.Contracts;
-using Repositories.EFCore;
 using Services.Contract;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace WebApi.Controllers
+namespace Presentation.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -20,7 +22,7 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAllBooks() 
+        public IActionResult GetAllBooks()
         {
             try
             {
@@ -32,7 +34,7 @@ namespace WebApi.Controllers
 
                 throw;
             }
-            
+
         }
 
         [HttpGet("{id:int}")]
@@ -48,15 +50,15 @@ namespace WebApi.Controllers
                 if (book == null)
                 {
                     return NotFound(); //404
-                } 
+                }
                 return Ok(book);
-}
+            }
             catch (Exception)
             {
 
                 throw;
             }
-            
+
         }
 
         [HttpPost]
@@ -68,7 +70,7 @@ namespace WebApi.Controllers
                     return BadRequest(); //400
 
                 _manager.BookService.CreateOneBook(book);
-                
+
                 return StatusCode(201, book);
 
             }
@@ -93,7 +95,7 @@ namespace WebApi.Controllers
             entity.Title = book.Title; //book kısmı yeni değerler yani postman yada swagger üzerinden girdiğimiz değerler
             entity.Price = book.Price;
 
-            
+
 
             return Ok(book);
         }
@@ -124,7 +126,7 @@ namespace WebApi.Controllers
                 throw;
             }
 
-            
+
         }
 
         //patch olayı swagger üzerinde biraz garip pdf bakarak değer verme olayını anlayabilirsin
@@ -140,7 +142,7 @@ namespace WebApi.Controllers
                     return BadRequest(); //400
 
                 bookPatch.ApplyTo(entity);
-                _manager.BookService.UpdateOneBook(id,entity,true);
+                _manager.BookService.UpdateOneBook(id, entity, true);
                 return NoContent(); //204
             }
             catch (Exception)
@@ -149,10 +151,10 @@ namespace WebApi.Controllers
                 throw;
             }
             //check entity
-            
+
 
         }
 
-        
+
     }
 }

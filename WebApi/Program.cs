@@ -1,17 +1,17 @@
+﻿using Repositories.EFCore;
+using WebApi.Extensions;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using NLog;
-using Repositories.EFCore;
-using WebApi.Controllers.Extensions;
+using Presentation;
 
 var builder = WebApplication.CreateBuilder(args);
 
-//string.concat iki ifadenin string olarak birle?tirilmesini sa?lar
+//string.concat iki ifadenin string olarak birleştirilmesini sağlar
 LogManager.LoadConfiguration(String.Concat(Directory.GetCurrentDirectory(),"/nlog.config"));
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddApplicationPart(typeof(AssemblyReference).Assembly).AddNewtonsoftJson();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

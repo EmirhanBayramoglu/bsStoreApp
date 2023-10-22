@@ -4,7 +4,7 @@ using Repositories.EFCore;
 using Services;
 using Services.Contract;
 
-namespace WebApi.Controllers.Extensions
+namespace WebApi.Extensions
 {
     //Service oluşturma klasörü
     public static class ServiceExtensions
@@ -21,7 +21,7 @@ namespace WebApi.Controllers.Extensions
         public static void ConfigureServiceManager(this IServiceCollection services) =>
             services.AddScoped<IServiceManager, ServiceManager>();
 
-        public static void ConfigureLoggerService(this IServiceCollection services) => 
+        public static void ConfigureLoggerService(this IServiceCollection services) =>
             services.AddSingleton<ILoggerService, LoggerManager>();
 
     }
