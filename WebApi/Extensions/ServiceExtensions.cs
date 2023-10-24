@@ -7,6 +7,14 @@ using Services.Contract;
 namespace WebApi.Extensions
 {
     //Service oluşturma klasörü
+
+    //Singleton ile Tanımlanma Özelliği
+    //Dikkat edilmesi gereken bir nokta, "AddSingleton" ile kaydedilen nesnelerin uygulama başladığında oluşturulduğu
+    //ve uygulama sonlandığında yok edildiği, bu nedenle gerektiğinde dikkatli bir şekilde kullanılmalıdır.
+
+    //Scoped ile Tanımlanma Özelliği
+    //AddScoped hizmetleri, bir HTTP isteği başladığında oluşturulur ve istek tamamlandığında yok edilir.
+
     public static class ServiceExtensions
     {
         //birşeyler yapılandırmaya, genişletmeye yarayan şeyler yazarız bu kısımda

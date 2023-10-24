@@ -11,6 +11,7 @@ namespace WebApi.Utilities.AutoMapper
         {
             //veri kaynağı ve dönüşeceği bir obje girilir
             CreateMap<BookDtoForUpdate, Book>();
+            CreateMap<Book, BookDto>();
         }
     }
 }
