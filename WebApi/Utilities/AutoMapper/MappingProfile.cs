@@ -10,8 +10,9 @@ namespace WebApi.Utilities.AutoMapper
         public MappingProfile()
         {
             //veri kaynağı ve dönüşeceği bir obje girilir
-            CreateMap<BookDtoForUpdate, Book>();
+            CreateMap<BookDtoForUpdate, Book>().ReverseMap();
             CreateMap<Book, BookDto>();
+            CreateMap<BookDtoForInsertion, Book>();
         }
     }
 }
