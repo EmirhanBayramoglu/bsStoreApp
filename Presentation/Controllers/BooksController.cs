@@ -3,6 +3,7 @@ using Entities.Exceptions;
 using Entities.Models;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using Presentation.ActionFilters;
 using Services.Contract;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ using System.Threading.Tasks;
 
 namespace Presentation.Controllers
 {
+    [ServiceFilter(typeof(LogFilterAttribute))]
     [Route("api/[controller]")]
     [ApiController]
     public class BooksController : ControllerBase
@@ -42,17 +44,10 @@ namespace Presentation.Controllers
           
         }
 
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         [HttpPost]
         public async Task<IActionResult> CreateOneBook([FromBody] BookDtoForInsertion bookDto)
         {
-            
-            if (bookDto == null)
-                return BadRequest(); //400
-
-            //bu işlem  error mesajlarını bastırma işleminden kaçındıktan sonra sadece bizim yazdığımız
-            //error mesajlarının görünmesini sağlar "program.cs" içerisindeki services.configure olayı bastıma işleminin içerir
-            if(!ModelState.IsValid)
-                return UnprocessableEntity(ModelState);
 
             var book = await _manager.BookService.CreateOneBookAsync(bookDto);
 
@@ -60,15 +55,10 @@ namespace Presentation.Controllers
 
         }
 
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         [HttpPut("{id:int}")]
         public async Task<IActionResult> UpdateOneBook([FromRoute(Name = "id")] int id, [FromBody] BookDtoForUpdate bookDto)
         {
-            if (bookDto is null)
-                return BadRequest(); //400
-
-            if (!ModelState.IsValid)
-                return UnprocessableEntity(ModelState);
-
             await _manager.BookService.UpdateOneBookAsync(id, bookDto, false);
             return NoContent();
         }

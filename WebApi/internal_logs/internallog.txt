@@ -122,3 +122,19 @@
 2023-10-25 00:14:11.0602 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.2.5.2160. Product version: 5.2.5+7c014325443d65541200b698a50b9dd4ec30c7f0. GlobalAssemblyCache: False
 2023-10-25 00:14:11.0700 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=C:\Users\emirh\OneDrive\Masaüstü\AppNetCoreWebApi\Applications\bsStoreApp\WebApi\nlog.config
 2023-10-25 00:14:11.0700 Info Configuration initialized.
+2023-10-25 18:03:53.7129 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2023-10-25 18:03:53.7755 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.2.5.2160. Product version: 5.2.5+7c014325443d65541200b698a50b9dd4ec30c7f0. GlobalAssemblyCache: False
+2023-10-25 18:03:53.7903 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=C:\Users\emirh\OneDrive\Masaüstü\AppNetCoreWebApi\Applications\bsStoreApp\WebApi\nlog.config
+2023-10-25 18:03:53.8032 Info Configuration initialized.
+2023-10-25 18:06:07.1251 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2023-10-25 18:06:07.1367 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.2.5.2160. Product version: 5.2.5+7c014325443d65541200b698a50b9dd4ec30c7f0. GlobalAssemblyCache: False
+2023-10-25 18:06:07.1452 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=C:\Users\emirh\OneDrive\Masaüstü\AppNetCoreWebApi\Applications\bsStoreApp\WebApi\nlog.config
+2023-10-25 18:06:07.1452 Info Configuration initialized.
+2023-10-25 18:06:40.2837 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2023-10-25 18:06:40.3120 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.2.5.2160. Product version: 5.2.5+7c014325443d65541200b698a50b9dd4ec30c7f0. GlobalAssemblyCache: False
+2023-10-25 18:06:40.3289 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=C:\Users\emirh\OneDrive\Masaüstü\AppNetCoreWebApi\Applications\bsStoreApp\WebApi\nlog.config
+2023-10-25 18:06:40.3413 Info Configuration initialized.
+2023-10-25 19:19:35.1053 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2023-10-25 19:19:35.1309 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.2.5.2160. Product version: 5.2.5+7c014325443d65541200b698a50b9dd4ec30c7f0. GlobalAssemblyCache: False
+2023-10-25 19:19:35.1454 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=C:\Users\emirh\OneDrive\Masaüstü\AppNetCoreWebApi\Applications\bsStoreApp\WebApi\nlog.config
+2023-10-25 19:19:35.1573 Info Configuration initialized.
