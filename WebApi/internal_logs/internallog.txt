@@ -142,3 +142,15 @@
 2023-10-27 20:26:17.2288 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.2.5.2160. Product version: 5.2.5+7c014325443d65541200b698a50b9dd4ec30c7f0. GlobalAssemblyCache: False
 2023-10-27 20:26:17.2452 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=C:\Users\emirh\OneDrive\Masaüstü\AppNetCoreWebApi\Applications\bsStoreApp\WebApi\nlog.config
 2023-10-27 20:26:17.2452 Info Configuration initialized.
+2023-10-27 23:14:38.7682 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2023-10-27 23:14:38.7972 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.2.5.2160. Product version: 5.2.5+7c014325443d65541200b698a50b9dd4ec30c7f0. GlobalAssemblyCache: False
+2023-10-27 23:14:38.8133 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=C:\Users\emirh\OneDrive\Masaüstü\AppNetCoreWebApi\Applications\bsStoreApp\WebApi\nlog.config
+2023-10-27 23:14:38.8280 Info Configuration initialized.
+2023-10-27 23:57:28.6701 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2023-10-27 23:57:28.6973 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.2.5.2160. Product version: 5.2.5+7c014325443d65541200b698a50b9dd4ec30c7f0. GlobalAssemblyCache: False
+2023-10-27 23:57:28.7104 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=C:\Users\emirh\OneDrive\Masaüstü\AppNetCoreWebApi\Applications\bsStoreApp\WebApi\nlog.config
+2023-10-27 23:57:28.7227 Info Configuration initialized.
+2023-10-28 00:20:42.1501 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2023-10-28 00:20:42.1626 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.2.5.2160. Product version: 5.2.5+7c014325443d65541200b698a50b9dd4ec30c7f0. GlobalAssemblyCache: False
+2023-10-28 00:20:42.1713 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=C:\Users\emirh\OneDrive\Masaüstü\AppNetCoreWebApi\Applications\bsStoreApp\WebApi\nlog.config
+2023-10-28 00:20:42.1713 Info Configuration initialized.

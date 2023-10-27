@@ -39,5 +39,18 @@ namespace WebApi.Extensions
             services.AddSingleton<LogFilterAttribute>();
             }
 
+        //front'dan api istek için izin verme servisi
+        public static void ConfigureCors(this IServiceCollection services)
+        {
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy", builder =>
+                    builder.AllowAnyOrigin() //herhangi bir köken
+                    .AllowAnyMethod()//put post tarzı şeyler
+                    .AllowAnyHeader()
+                    .WithExposedHeaders("X-Pagination")
+                    );
+            });
+        }
     }
 }

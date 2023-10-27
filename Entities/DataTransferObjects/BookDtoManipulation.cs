@@ -15,7 +15,7 @@ namespace Entities.DataTransferObjects
         public String Title { get; init; }
 
         [Required(ErrorMessage = "Price is a required field")]
-        [Range(10,100)]
+        [Range(10,10000)]
         public decimal Price { get; init; }
     }
 }
