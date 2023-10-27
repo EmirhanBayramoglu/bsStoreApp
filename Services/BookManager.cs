@@ -41,8 +41,13 @@ namespace Services
             await _manager.SaveAsync();
         }
 
-        public async Task<(IEnumerable<BookDto> books, MetaData metaData)> GetAllBooksAsync(BookParameters bookParameters, bool trackChanges)
+        public async Task<(IEnumerable<BookDto> books, MetaData metaData)> 
+            GetAllBooksAsync(BookParameters bookParameters, bool trackChanges)
         {
+            //valid olup olmama şartı belirlendi BookParameters.cs dosyası içerisinde
+            if(!bookParameters.ValidPriceRange)
+                throw new PriceOutofRangeBadRequestException();
+
             var booksWithMetaData = await _manager
                 .Book
                 .GetAllBooksAsync(bookParameters, trackChanges);
