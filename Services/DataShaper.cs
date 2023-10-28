@@ -1,4 +1,5 @@
-﻿using Services.Contract;
+﻿using Entities.Models;
+using Services.Contract;
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
@@ -20,16 +21,16 @@ namespace Services
                 .GetProperties(BindingFlags.Public | BindingFlags.Instance); //public ve newlenerek elde edilen propertiesleri ver
         }
 
-        public IEnumerable<ExpandoObject> ShapeData(IEnumerable<T> entities, string fieldString)
+        public IEnumerable<ShapedEntity> ShapeData(IEnumerable<T> entities, string fieldString)
         {
             var requiredFields = GetRequiredProperties(fieldString);
             return FetchData(entities, requiredFields);
         } //liste halinde shaped entities
 
-        public ExpandoObject ShapeData(T entities, string fieldString)
+        public ShapedEntity ShapeData(T entity, string fieldsString)
         {
-            var requiredProperties = GetRequiredProperties(fieldString);
-            return FetchDataForEntity(entities, requiredProperties);
+            var requiredProperties = GetRequiredProperties(fieldsString);
+            return FetchDataForEntity(entity, requiredProperties);
         } //tek bir shaped entity
 
         private IEnumerable<PropertyInfo> GetRequiredProperties(string fieldsString)
@@ -58,24 +59,29 @@ namespace Services
             return requiredFiled;
         }
 
-        private ExpandoObject FetchDataForEntity(T entity, IEnumerable<PropertyInfo> requiredProperties)
+        private ShapedEntity FetchDataForEntity(T entity, IEnumerable<PropertyInfo> requiredProperties)
         {
-            var shapedObject = new ExpandoObject(); //run time da bu nesene üretileceği için ExpandoObject Yapıyoruz
+            var shapedObject = new ShapedEntity(); //run time da bu nesene üretileceği için ExpandoObject Yapıyoruz
 
             foreach( var property in requiredProperties) //çekilen nesnelerin property value'larını çekiyo
                                                          //id title ise onların değerlerini alıyo
             {
                 var objectPropertyValue = property.GetValue(entity);//entity property değerlerini alıyo
-                shapedObject.TryAdd(property.Name, objectPropertyValue);
+                shapedObject.Entity.TryAdd(property.Name, objectPropertyValue);
             }
+
+            var objectProperty = entity.GetType().GetProperty("Id"); //sekillendirilmiş objenin her türlü id'sini tutuyoruz ileride 
+                                                                     //link olayları için kullanacağız
+            shapedObject.Id = (int)objectProperty.GetValue(entity);
+
             return shapedObject;
         }
 
-        private IEnumerable<ExpandoObject> FetchData(IEnumerable<T> entities,
+        private IEnumerable<ShapedEntity> FetchData(IEnumerable<T> entities,
             IEnumerable<PropertyInfo> requiredProperties) //üst metotda entityleri ayarlar bu metotda
                                                           //o ayarlanan entityleri listlememizi sağlar 
         {
-            var shapedData = new List<ExpandoObject>();
+            var shapedData = new List<ShapedEntity>();
             foreach(var entity in entities)
             {
                 var shapedObject = FetchDataForEntity(entity, requiredProperties);

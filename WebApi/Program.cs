@@ -6,6 +6,7 @@ using Presentation;
 using Services.Contract;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.ActionFilters;
+using Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +21,7 @@ builder.Services.AddControllers(config =>
     config.ReturnHttpNotAcceptable = true;
 })
     .AddXmlDataContractSerializerFormatters()
+    .AddCustomCsvFormatter()
     .AddApplicationPart(typeof(AssemblyReference).Assembly)
     .AddNewtonsoftJson();
 
@@ -43,6 +45,8 @@ builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.ConfigureActionFilter();
 builder.Services.ConfigureCors();
 builder.Services.ConfigureDataShapepr();
+builder.Services.AddCustomMediaTypes();
+builder.Services.AddScoped<IBookLinks, BookLinks>();
 
 
 builder.Services.AddControllers().AddNewtonsoftJson();

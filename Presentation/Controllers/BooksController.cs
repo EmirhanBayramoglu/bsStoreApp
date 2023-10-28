@@ -1,5 +1,6 @@
 ﻿using Entities.DataTransferObjects;
 using Entities.Exceptions;
+using Entities.LinkModels;
 using Entities.Models;
 using Entities.RequesFeatures;
 using Microsoft.AspNetCore.JsonPatch;
@@ -27,16 +28,27 @@ namespace Presentation.Controllers
             _manager = manager;
         }
 
+
         [HttpGet]
+        [ServiceFilter(typeof(ValidateMediaTypeAttribute))]
         public async Task<IActionResult> GetAllBooksAsync([FromQuery]BookParameters bookParameters)
         {
-            var pagedResult = await _manager
+            var linkParameters = new LinkParameters()
+            {
+                BookParameters = bookParameters,
+                HttpContext = HttpContext
+            };
+
+            var linkResult = await _manager
                 .BookService
-                .GetAllBooksAsync(bookParameters,false);
+                .GetAllBooksAsync(linkParameters,false);
 
             Response.Headers.Add("X-Pagination", 
-                JsonSerializer.Serialize(pagedResult.metaData));
-            return Ok(pagedResult.books);
+                JsonSerializer.Serialize(linkResult.metaData));
+            
+            return linkResult.linkResponse.HasLink ?
+                Ok(linkResult.linkResponse.LinkedEntitites) :
+                Ok(linkResult.linkResponse.ShapedEntities);
 
         }
 

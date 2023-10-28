@@ -25,13 +25,4 @@ namespace Entities.LinkModels
         }
 
     }
-
-    public class LinkResourceBse
-    {
-        public LinkResourceBse()
-        {
-        }
-
-        public List<Link> Links { get; set;} = new List<Link>(); 
-    }
 }
