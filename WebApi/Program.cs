@@ -42,6 +42,7 @@ builder.Services.ConfigureLoggerService();
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.ConfigureActionFilter();
 builder.Services.ConfigureCors();
+builder.Services.ConfigureDataShapepr();
 
 
 builder.Services.AddControllers().AddNewtonsoftJson();

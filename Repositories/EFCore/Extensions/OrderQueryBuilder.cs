@@ -37,11 +37,11 @@ namespace Repositories.EFCore.Extensions
                 var direction = param.EndsWith(" desc") ? "descending" : "ascending";
 
                 orderQueryBuilder.Append($"{objectProperty.Name.ToString()} {direction},");
-
-                var orderQuery = orderQueryBuilder.ToString().TrimEnd(',', ' ');
-
-                return orderQuery;
             }
+
+            var orderQuery = orderQueryBuilder.ToString().TrimEnd(',', ' ');
+
+            return orderQuery;
         }
     }
 }
