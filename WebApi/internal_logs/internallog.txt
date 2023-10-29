@@ -460,3 +460,27 @@
 2023-10-29 16:17:59.6903 Info Configuration initialized.
 2023-10-29 16:18:41.9857 Info AppDomain Shutting down. LogFactory closing...
 2023-10-29 16:18:41.9857 Info LogFactory has been closed.
+2023-10-29 17:09:59.5180 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2023-10-29 17:09:59.5180 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.2.5.2160. Product version: 5.2.5+7c014325443d65541200b698a50b9dd4ec30c7f0. GlobalAssemblyCache: False
+2023-10-29 17:09:59.5377 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=C:\Users\emirh\OneDrive\Masaüstü\AppNetCoreWebApi\Applications\bsStoreApp\WebApi\nlog.config
+2023-10-29 17:09:59.5377 Info Configuration initialized.
+2023-10-29 17:10:00.3489 Info AppDomain Shutting down. LogFactory closing...
+2023-10-29 17:10:00.3489 Info LogFactory has been closed.
+2023-10-29 17:11:13.6843 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2023-10-29 17:11:13.6954 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.2.5.2160. Product version: 5.2.5+7c014325443d65541200b698a50b9dd4ec30c7f0. GlobalAssemblyCache: False
+2023-10-29 17:11:13.6954 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=C:\Users\emirh\OneDrive\Masaüstü\AppNetCoreWebApi\Applications\bsStoreApp\WebApi\nlog.config
+2023-10-29 17:11:13.7111 Info Configuration initialized.
+2023-10-29 17:11:15.2950 Info AppDomain Shutting down. LogFactory closing...
+2023-10-29 17:11:15.3024 Info LogFactory has been closed.
+2023-10-29 17:26:22.2748 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2023-10-29 17:26:22.2859 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.2.5.2160. Product version: 5.2.5+7c014325443d65541200b698a50b9dd4ec30c7f0. GlobalAssemblyCache: False
+2023-10-29 17:26:22.2859 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=C:\Users\emirh\OneDrive\Masaüstü\AppNetCoreWebApi\Applications\bsStoreApp\WebApi\nlog.config
+2023-10-29 17:26:22.3015 Info Configuration initialized.
+2023-10-29 17:26:23.1016 Info AppDomain Shutting down. LogFactory closing...
+2023-10-29 17:26:23.1016 Info LogFactory has been closed.
+2023-10-29 17:26:54.8906 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2023-10-29 17:26:54.9026 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.2.5.2160. Product version: 5.2.5+7c014325443d65541200b698a50b9dd4ec30c7f0. GlobalAssemblyCache: False
+2023-10-29 17:26:54.9111 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=C:\Users\emirh\OneDrive\Masaüstü\AppNetCoreWebApi\Applications\bsStoreApp\WebApi\nlog.config
+2023-10-29 17:26:54.9111 Info Configuration initialized.
+2023-10-29 17:26:55.8569 Info AppDomain Shutting down. LogFactory closing...
+2023-10-29 17:26:55.8642 Info LogFactory has been closed.

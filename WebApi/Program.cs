@@ -49,6 +49,10 @@ builder.Services.AddMemoryCache();
 builder.Services.ConfigureRateLimitingOptions();
 builder.Services.AddHttpContextAccessor();
 
+//Security Part
+builder.Services.AddAuthentication();
+builder.Services.ConfigureIdentity();
+
 var app = builder.Build();
 
 var logger = app.Services.CreateScope().ServiceProvider.GetRequiredService<ILoggerService>();
@@ -71,8 +75,11 @@ app.UseHttpsRedirection();
 app.UseIpRateLimiting();
 app.UseCors("CorsPolicy");
 app.UseResponseCaching(); //cors dan sonra çağırılması tavsiye ediliyor
-app.UseAuthorization();
 app.UseHttpCacheHeaders();
+
+app.UseAuthentication();
+app.UseAuthorization();
+
 
 app.MapControllers();
 
