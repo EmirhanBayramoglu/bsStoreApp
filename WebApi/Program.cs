@@ -15,7 +15,9 @@ builder.Services.AddControllers(config =>
 {
     config.RespectBrowserAcceptHeader = true;
     config.ReturnHttpNotAcceptable = true;
-}).AddXmlDataContractSerializerFormatters()
+    config.CacheProfiles.Add("5mins", new CacheProfile() { Duration = 300 });
+})
+    .AddXmlDataContractSerializerFormatters()
 .AddApplicationPart(typeof(Presentation.AssemblyReference).Assembly);
 //.AddNewtonsoftJson();
 
@@ -40,6 +42,8 @@ builder.Services.ConfigureDataShaper();
 builder.Services.AddCustomMediaTypes();
 builder.Services.AddScoped<IBookLinks, BookLinks>();
 builder.Services.ConfigureVersioning();
+builder.Services.ConfigureResponseCaching();
+builder.Services.ConfigureHttpCacheHeaders();
 
 var app = builder.Build();
 
@@ -60,7 +64,9 @@ if (app.Environment.IsProduction())
 app.UseHttpsRedirection();
 
 app.UseCors("CorsPolicy");
+app.UseResponseCaching(); //cors dan  sonra çağırılması tavsiye ediliyor
 app.UseAuthorization();
+app.UseHttpCacheHeaders();
 
 app.MapControllers();
 

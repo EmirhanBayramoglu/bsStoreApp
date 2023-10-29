@@ -12,6 +12,7 @@ using System.Text.Json;
 using Entities.LinkModels;
 using Entities.RequesFeatures;
 using Services.Contract;
+using Marvin.Cache.Headers;
 
 namespace Presentation.Controllers
 {
@@ -19,6 +20,9 @@ namespace Presentation.Controllers
     [ServiceFilter(typeof(LogFilterAttribute))]
     [Route("api/books")]
     [ApiController]
+    //[ResponseCache(CacheProfileName = "5mins")] //tüm controllerlara 5 dakikalık cache uygunaldı ("5mins" değeri program.cs içerisinde belirlendi)
+    //[HttpCacheExpiration(CacheLocation = CacheLocation.Public, MaxAge = 80)] //bu şekilde serviceExtensions içerisindeki değerlerin üzerine
+                                                                             //başka değerler yazabilriiz belirli yerler için
     public class BooksController : ControllerBase
     {
         private readonly IServiceManager _serviceManager;
@@ -31,6 +35,8 @@ namespace Presentation.Controllers
         [HttpHead]
         [HttpGet(Name = "GetAllBooksAsync")]
         [ServiceFilter(typeof(ValidatorMediaTypeAttribute))]
+        //[ResponseCache(Duration = 60)] //60 saniye boyunca Chachelenbilir (depolanabilir) 
+        //bunu silmezsek bookcontroller classının üzerindeki 5 dakikalık cache kullanılmaz bu controller için
         public async Task<IActionResult> GetAllBooksAsync([FromQuery] BookParameters bookParamaters)
         {
             var linkParamaters = new LinkParameters()
