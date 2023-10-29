@@ -4,32 +4,22 @@ using Microsoft.Net.Http.Headers;
 
 namespace Presentation.ActionFilters
 {
-    public class ValidateMediaTypeAttribute : ActionFilterAttribute
+    public class ValidatorMediaTypeAttribute : ActionFilterAttribute
     {
         public override void OnActionExecuting(ActionExecutingContext context)
         {
-            var acceptHeaderPresent = context.HttpContext
-                .Request
-                .Headers
-                .ContainsKey("Accept");
+            var acceptHeaderPresent = context.HttpContext.Request.Headers.ContainsKey("Accept");
 
             if (!acceptHeaderPresent)
             {
-                context.Result =
-                    new BadRequestObjectResult($"Accept header is missing!");
+                context.Result = new BadRequestObjectResult("Accept header is missing.");
                 return;
             }
-
-            var mediaType = context.HttpContext
-                .Request
-                .Headers["Accept"]
-                .FirstOrDefault();
-
+            var mediaType = context.HttpContext.Request.Headers["Accept"].FirstOrDefault();
             if (!MediaTypeHeaderValue.TryParse(mediaType, out MediaTypeHeaderValue? outMediaType))
             {
-                context.Result =
-                    new BadRequestObjectResult($"Media type not present. " +
-                    $"Please add Accept header with required media type.");
+                context.Result = new BadRequestObjectResult("Media type not present." +
+                    "Please add Accept header with required media type.");
                 return;
             }
 

@@ -40,24 +40,22 @@ namespace WebApi.Extensions
             {
             services.AddScoped<ValidationFilterAttribute>();
             services.AddSingleton<LogFilterAttribute>();
-            services.AddScoped<ValidateMediaTypeAttribute>();
+            services.AddScoped<ValidatorMediaTypeAttribute>();
             }
 
         //front'dan api istek için izin verme servisi
-        public static void ConfigureCors(this IServiceCollection services)
-        {
+        public static void ConfigureCors(this IServiceCollection services) =>
             services.AddCors(options =>
             {
                 options.AddPolicy("CorsPolicy", builder =>
-                    builder.AllowAnyOrigin() //herhangi bir köken
-                    .AllowAnyMethod()//put post tarzı şeyler
-                    .AllowAnyHeader()
-                    .WithExposedHeaders("X-Pagination")
-                    );
+                builder.AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .WithExposedHeaders("X-Pagination")
+                );
             });
-        }
 
-        public static void ConfigureDataShapepr(this IServiceCollection services)
+        public static void ConfigureDataShaper(this IServiceCollection services)
         {
             services.AddScoped<IDataShaper<BookDto>, DataShaper<BookDto>>();
         }
@@ -66,27 +64,28 @@ namespace WebApi.Extensions
         {
             services.Configure<MvcOptions>(config =>
             {
-                var systemTextJsonOutputFormatter = config
-                .OutputFormatters
-                .OfType<SystemTextJsonOutputFormatter>()?.FirstOrDefault();
+                var systemTextJsonOutputFormatter = config.OutputFormatters.OfType<SystemTextJsonOutputFormatter>()?.FirstOrDefault();
 
-                if (systemTextJsonOutputFormatter != null)
+                if (systemTextJsonOutputFormatter is not null)
                 {
-                    systemTextJsonOutputFormatter.SupportedMediaTypes
-                    .Add("application/vnd.btkakademi.hateoas+json");
+                    systemTextJsonOutputFormatter
+                    .SupportedMediaTypes.Add("application/vnd.btkakademi.hateoas+json");
+
+                    systemTextJsonOutputFormatter
+                    .SupportedMediaTypes.Add("application/vnd.btkakademi.apiroot+json");
                 }
 
                 var xmlOutputFormatter = config
-                .OutputFormatters
-                .OfType<XmlDataContractSerializerOutputFormatter>()?.FirstOrDefault();
+                .OutputFormatters.OfType<XmlDataContractSerializerOutputFormatter>()?.FirstOrDefault();
 
-                if (xmlOutputFormatter != null)
+                if (xmlOutputFormatter is not null)
                 {
-                    xmlOutputFormatter.SupportedMediaTypes
-                    .Add("application/vnd.btkakademi.hateoas+xml");
+                    xmlOutputFormatter
+                    .SupportedMediaTypes.Add("application/vnd.btkakademi.hateoas+xml");
+                    xmlOutputFormatter
+                    .SupportedMediaTypes.Add("application/vnd.btkakademi.apiroot+xml");
                 }
             });
         }
-
     }
 }

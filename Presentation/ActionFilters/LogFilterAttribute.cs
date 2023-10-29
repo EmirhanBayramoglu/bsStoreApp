@@ -1,13 +1,12 @@
 ﻿using Entities.LogModel;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.AspNetCore.Routing;
 using Services.Contract;
-using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Routing;
 
 namespace Presentation.ActionFilters
 {
@@ -25,18 +24,19 @@ namespace Presentation.ActionFilters
             _logger.LogInfo(Log("OnActionExecuting", context.RouteData));
         }
 
-        private string Log(string modelName, RouteData routeData)
+        private string Log(string modelName, RouteData RouteData)
         {
             var logDetails = new LogDetails()
             {
-                ModelModel = modelName,
-                Controller = routeData.Values["controller"],
-                Action = routeData.Values["action"]
+                ModelName = modelName,
+                Controller = RouteData.Values["controller"],
+                Action = RouteData.Values["action"]
             };
 
-            if (routeData.Values.Count >= 3)
-                logDetails.Id = routeData.Values["Id"];
-
+            if (RouteData.Values.Count >= 3)
+            {
+                logDetails.Id = RouteData.Values["id"];
+            }
             return logDetails.ToString();
         }
     }

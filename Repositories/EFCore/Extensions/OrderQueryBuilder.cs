@@ -27,20 +27,14 @@ namespace Repositories.EFCore.Extensions
 
                 var propertyFromQueryName = param.Split(' ')[0]; //desc yani azdan çoğa mı a dan z ye mi onu anlamamızı sağlayacak kısım burası
 
-                var objectProperty = propertyInfos
-                    .FirstOrDefault(pi => pi.Name.Equals(propertyFromQueryName,
-                    StringComparison.InvariantCultureIgnoreCase));
-
-                if (objectProperty is null)
+                var objectProperty = propertyInfos.FirstOrDefault(pi => pi.Name.Equals(propertyFromQueryName,
+                                       StringComparison.InvariantCultureIgnoreCase));
+                if (objectProperty == null)
                     continue;
-
                 var direction = param.EndsWith(" desc") ? "descending" : "ascending";
-
-                orderQueryBuilder.Append($"{objectProperty.Name.ToString()} {direction},");
+                orderQueryBuilder.Append($"{objectProperty.Name.ToString()} {direction}, ");
             }
-
             var orderQuery = orderQueryBuilder.ToString().TrimEnd(',', ' ');
-
             return orderQuery;
         }
     }

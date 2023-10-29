@@ -17,6 +17,8 @@ namespace Entities.RequesFeatures
         public BookParameters()
         {
             OrderBy = "id";
+            PageSize = 50;
+            PageNumber = 1;
         }
     }
 }

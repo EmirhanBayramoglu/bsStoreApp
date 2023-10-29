@@ -9,22 +9,17 @@ namespace Repositories.EFCore
 {
     public class RepositoryManager : IRepositoryManager
     {
-        private readonly RepositoryContext _context;
-        //Lazy Rpositorynin sadece kodda kullanılacağı zaman newlenmesi için oluşturlan bir yapıdır
-        //alk kısımdaki constractor içerisinde girilince repository newlenir
+        private readonly RepositoryContext _repositoryContext;
         private readonly Lazy<IBookRepository> _bookRepository;
 
-        public RepositoryManager (RepositoryContext context)
+        public RepositoryManager(RepositoryContext repositoryContext)
         {
-            _context = context;
-            _bookRepository = new Lazy<IBookRepository>(() => new BookRepository(_context));
+            _repositoryContext = repositoryContext;
+            _bookRepository = new Lazy<IBookRepository>(() => new BookRepository(_repositoryContext));
         }
 
-        public IBookRepository Book => new BookRepository(_context);
-
-        public async Task SaveAsync()
-        {
-           await _context.SaveChangesAsync();
-        }
+        public IBookRepository Book => _bookRepository.Value;
+        public async Task SaveAsync() =>
+            await _repositoryContext.SaveChangesAsync();
     }
 }

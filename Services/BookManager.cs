@@ -4,6 +4,7 @@ using Entities.Exceptions;
 using Entities.LinkModels;
 using Entities.Models;
 using Entities.RequesFeatures;
+using Entities.RequestFeatures;
 using Repositories.Contracts;
 using Services.Contract;
 using System;

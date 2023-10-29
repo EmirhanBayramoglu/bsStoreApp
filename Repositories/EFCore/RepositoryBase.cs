@@ -9,28 +9,25 @@ using System.Threading.Tasks;
 
 namespace Repositories.EFCore
 {
-    public abstract class RepositoryBase<T> : IRepositoryBase<T>
-        where T : class
+    public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : class
     {
+        protected readonly RepositoryContext _repositoryContext;
 
-        protected readonly RepositoryContext _context;
-
-        public RepositoryBase(RepositoryContext context)
+        public RepositoryBase(RepositoryContext repositoryContext)
         {
-            _context = context;
+            _repositoryContext = repositoryContext;
         }
 
-        public void Create(T entity) => _context.Set<T>().Add(entity);
-
-        public void Delete(T entity) => _context.Set<T>().Remove(entity);
-
+        public void Create(T entity) => _repositoryContext.Set<T>().Add(entity);
+        public void Delete(T entity) => _repositoryContext.Set<T>().Remove(entity);
+        public void Update(T entity) => _repositoryContext.Set<T>().Update(entity);
         public IQueryable<T> FindAll(bool trackChanges)
-            => !trackChanges ? _context.Set<T>().AsNoTracking() : _context.Set<T>();
-
-        public IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression, bool trackChanges)
-            => !trackChanges ? _context.Set<T>().Where(expression).AsNoTracking() : _context.Set<T>().Where(expression);
-
-
-        public void Update(T entity) => _context.Set<T>().Update(entity);
+            => !trackChanges ?
+            _repositoryContext.Set<T>().AsNoTracking() :
+            _repositoryContext.Set<T>();
+        public IQueryable<T> FindByConditons(Expression<Func<T, bool>> expression, bool trackChanges)
+            => !trackChanges ?
+            _repositoryContext.Set<T>().Where(expression).AsNoTracking() :
+            _repositoryContext.Set<T>().Where(expression);
     }
 }
