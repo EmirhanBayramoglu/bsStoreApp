@@ -30,8 +30,7 @@ builder.Services.Configure<ApiBehaviorOptions>(options =>
 });
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
+builder.Services.ConfigureSwagger();
 builder.Services.ConfigureSqlContext(builder.Configuration);
 builder.Services.ConfigureRepositoryManager();
 builder.Services.ConfigureServiceManager();
@@ -49,10 +48,12 @@ builder.Services.AddMemoryCache();
 builder.Services.ConfigureRateLimitingOptions();
 builder.Services.AddHttpContextAccessor();
 
-//Security Part
-builder.Services.AddAuthentication();
-builder.Services.ConfigureIdentity();
 
+//Security Part
+builder.Services.ConfigureIdentity();
+builder.Services.ConfigureJwt(builder.Configuration);
+
+//bütün builder.services servislerini app içerisine build eder
 var app = builder.Build();
 
 var logger = app.Services.CreateScope().ServiceProvider.GetRequiredService<ILoggerService>();
@@ -61,7 +62,11 @@ app.ConfigureExceptionHandler(logger);
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(s =>
+    {
+        s.SwaggerEndpoint("/swagger/v1/swagger.json", "BTK Akademi v1");
+        s.SwaggerEndpoint("/swagger/v2/swagger.json", "BTK Akademi v2");
+    });
 }
 
 if (app.Environment.IsProduction())

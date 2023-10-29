@@ -12,6 +12,7 @@ namespace Presentation.Controllers
     //[ApiVersion("2.0", Deprecated = true)] //" Deprecated = true" bu versiyonun kullanımdan kaldırılacağını gösterir
     [ApiController]
     [Route("api/books")]
+    [ApiExplorerSettings(GroupName = "v2")]
     public class BookV2Controller :ControllerBase
     {
         private readonly IServiceManager _manager;

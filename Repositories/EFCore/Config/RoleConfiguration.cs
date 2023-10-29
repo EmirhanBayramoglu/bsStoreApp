@@ -22,7 +22,7 @@ namespace Repositories.EFCore.Config
                 new IdentityRole
                 {
                     Name = "Editor",
-                    NormalizedName = "EDıTOR",
+                    NormalizedName = "EDITOR",
                 },
                 new IdentityRole
                 {

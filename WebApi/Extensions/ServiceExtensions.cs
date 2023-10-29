@@ -2,6 +2,7 @@
 using Entities.DataTransferObjects;
 using Entities.Models;
 using Marvin.Cache.Headers;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
@@ -13,6 +14,9 @@ using Repositories.Contracts;
 using Repositories.EFCore;
 using Services;
 using Services.Contract;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Microsoft.OpenApi.Models;
 
 namespace WebApi.Extensions
 {
@@ -137,7 +141,7 @@ namespace WebApi.Extensions
                 new RateLimitRule()
                 {
                     Endpoint = "*",
-                    Limit = 3,
+                    Limit = 60,
                     Period = "1m"
                 }
             };
@@ -160,13 +164,72 @@ namespace WebApi.Extensions
                 opts.Password.RequireDigit = true;  //Passward için gerekenler
                 opts.Password.RequireLowercase = false;
                 opts.Password.RequireUppercase = false;
-                opts.Password.RequireNonAlphanumeric = true;
+                opts.Password.RequireNonAlphanumeric = false;
                 opts.Password.RequiredLength = 6;
 
                 opts.User.RequireUniqueEmail = true; //user için gerekenler
             })
                 .AddEntityFrameworkStores<RepositoryContext>() //RepositoryContext içerisinde depolanacak 
                 .AddDefaultTokenProviders(); // Default Tokenlama kullanılacak
+        }
+
+        public static void ConfigureJwt(this IServiceCollection services,
+            IConfiguration configuration)
+        {
+            var jwtSettings = configuration.GetSection("JwtSettings"); //appsettings içerisindeki JwtSettings kısmındaki ayarları alıyoruz
+            var secretKey = jwtSettings["secretKey"];
+
+            services.AddAuthentication(opt =>
+            {
+                //Authentication için default şemalar
+                opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = jwtSettings["validIssuer"],
+                    ValidAudience = jwtSettings["validAudience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey))
+                }
+            );
+        }
+
+        public static void ConfigureSwagger(this IServiceCollection services)
+        {
+            services.AddSwaggerGen(s =>
+            {
+                s.SwaggerDoc("v1", new OpenApiInfo { Title = "BTK Akademi", Version = "v1" });
+                s.SwaggerDoc("v2", new OpenApiInfo { Title = "BTK Akademi", Version = "v2" });
+
+                s.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+                {
+                    In = ParameterLocation.Header,
+                    Description = "Place to add JWT with Bearer",
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Bearer"
+                });
+
+                s.AddSecurityRequirement(new OpenApiSecurityRequirement()
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id="Bearer"
+                            },
+                            Name = "Bearer",
+                        },
+                        new List<string>()
+                    }
+                });
+            });
         }
     }
 }
